@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: web
+  name: web
+  namespace: test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: web
+    spec:
+      containers:
+      - image: nginx:1.15.4
+        imagePullPolicy: IfNotPresent
+        name: web
+        resources:
+         limits:
+           cpu: 10m
+           memory: 20Mi
+         requests:
+           cpu: 10m
+           memory: 20Mi
